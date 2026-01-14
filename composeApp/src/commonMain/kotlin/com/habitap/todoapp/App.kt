@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.habitap.todoapp.navigation.AddTodo
 import com.habitap.todoapp.navigation.ExternalUriHandler
-import com.habitap.todoapp.navigation.TodoDestination
 import com.habitap.todoapp.navigation.TodoNavHost
 import com.habitap.todoapp.viewmodel.TodoViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -31,7 +31,7 @@ fun App() {
                 // Parse the deep link URI and navigate to the appropriate destination
                 when {
                     uri.contains("open-todo-view") -> {
-                        navController.navigate(TodoDestination.AddTodo.route)
+                        navController.navigate(AddTodo)
                     }
                 }
             }
