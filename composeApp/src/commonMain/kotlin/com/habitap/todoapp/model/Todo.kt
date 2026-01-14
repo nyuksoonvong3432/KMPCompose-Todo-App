@@ -7,13 +7,17 @@ import kotlin.uuid.Uuid
  * Data model representing a Todo item.
  *
  * @property id Unique identifier for the todo item
- * @property title The title/description of the todo
+ * @property title The title of the todo
+ * @property description Optional description providing additional details
+ * @property tags List of text tags for categorization
  * @property isCompleted Whether the todo has been completed
  */
 @OptIn(ExperimentalUuidApi::class)
 data class Todo(
     val id: String = Uuid.random().toString(),
     val title: String,
+    val description: String = "",
+    val tags: List<String> = emptyList(),
     val isCompleted: Boolean = false
 ) {
     /**
