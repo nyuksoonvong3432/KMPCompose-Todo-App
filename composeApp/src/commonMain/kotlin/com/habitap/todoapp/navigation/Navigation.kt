@@ -8,6 +8,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
+import androidx.savedstate.read
 import com.habitap.todoapp.ui.AddEditTodoScreen
 import com.habitap.todoapp.ui.TodoScreen
 import com.habitap.todoapp.viewmodel.TodoViewModel
@@ -83,7 +85,12 @@ fun TodoNavHost(
         }
 
         // Add new todo screen
-        composable(route = TodoDestination.AddTodo.route) {
+        composable(
+            route = TodoDestination.AddTodo.route,
+            deepLinks = listOf(
+                navDeepLink { uriPattern = "demo://open-todo-view" }
+            )
+        ) {
             AddEditTodoScreen(
                 todoToEdit = null,
                 onSave = { title, description, tags ->
@@ -105,9 +112,8 @@ fun TodoNavHost(
                 }
             )
         ) { backStackEntry ->
-            val todoId = backStackEntry.arguments?.getString(TodoDestination.EditTodo.TODO_ID_ARG)
+            val todoId = backStackEntry.arguments?.read { TodoDestination.EditTodo.TODO_ID_ARG }
             val todo = todoId?.let { viewModel.getTodoById(it) }
-
             AddEditTodoScreen(
                 todoToEdit = todo,
                 onSave = { title, description, tags ->

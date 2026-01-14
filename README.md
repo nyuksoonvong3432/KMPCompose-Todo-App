@@ -28,7 +28,33 @@ in your IDE’s toolbar or build it directly from the terminal:
 ### Build and Run iOS Application
 
 To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+in your IDE's toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+
+### Testing Deep Links
+
+The app supports the `demo://` URL scheme for deep linking. The following deep link is available:
+
+| Deep Link | Description |
+|-----------|-------------|
+| `demo://open-todo-view` | Opens the Add Todo screen |
+
+#### Android Emulator
+
+1. Make sure the app is installed and the emulator is running
+2. Run the following command from terminal:
+   ```bash
+   adb shell am start -a android.intent.action.VIEW -d "demo://open-todo-view"
+   ```
+
+#### iOS Simulator
+
+1. Make sure the app is installed and the simulator is running
+2. Run the following command from terminal:
+   ```bash
+   xcrun simctl openurl booted "demo://open-todo-view"
+   ```
+
+   Alternatively, you can open Safari in the simulator and navigate to `demo://open-todo-view`.
 
 ---
 
