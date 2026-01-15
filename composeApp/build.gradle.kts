@@ -41,6 +41,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.androidx.navigation.compose)
+            implementation("io.github.g0dkar:qrcode-kotlin:4.5.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

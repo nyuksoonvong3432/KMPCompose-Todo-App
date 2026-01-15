@@ -29,6 +29,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
@@ -134,6 +137,8 @@ private fun TodoList(
     onDelete: (String) -> Unit,
     onEdit: (String) -> Unit
 ) {
+    var selectedTodoForQR by remember { mutableStateOf<Todo?>(null) }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -143,9 +148,18 @@ private fun TodoList(
                 todo = todo,
                 onToggleComplete = { onToggleComplete(todo.id) },
                 onDelete = { onDelete(todo.id) },
-                onEdit = { onEdit(todo.id) }
+                onEdit = { onEdit(todo.id) },
+                onShowQRCode = { selectedTodoForQR = todo }
             )
         }
+    }
+
+    // Show QR code dialog if a todo is selected
+    selectedTodoForQR?.let { todo ->
+        QRCodeDialog(
+            todo = todo,
+            onDismiss = { selectedTodoForQR = null }
+        )
     }
 }
 
@@ -158,7 +172,8 @@ private fun TodoItem(
     todo: Todo,
     onToggleComplete: () -> Unit,
     onDelete: () -> Unit,
-    onEdit: () -> Unit
+    onEdit: () -> Unit,
+    onShowQRCode: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -207,6 +222,17 @@ private fun TodoItem(
                             overflow = TextOverflow.Ellipsis
                         )
                     }
+                }
+            }
+
+            // Action buttons row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(onClick = onShowQRCode) {
+                    Text("QR Code", maxLines = 1)
                 }
 
                 TextButton(onClick = onEdit) {
